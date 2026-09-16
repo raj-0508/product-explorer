@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
 import { Filters } from "@/components/Filters";
 import { ProductGrid } from "@/components/ProductGrid";
@@ -12,6 +12,11 @@ export default function HomePage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [selected, setSelected] = useState<Product | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLastUpdated(new Date().toLocaleTimeString());
+  }, []);
 
   const categories = useMemo(() => {
     const unique = new Set(products.map((p) => p.category));
@@ -19,19 +24,20 @@ export default function HomePage() {
   }, [products]);
 
   const visibleProducts = products.filter((product) => {
-    if (category !== "all") {
-      return product.category === category;
-    }
-    return product.title.includes(search);
+    const matchesCategory = category === "all" || product.category === category;
+    const matchesSearch = product.title.toLowerCase().includes(search.toLowerCase().trim());
+    return matchesCategory && matchesSearch;
   });
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
       <header className="mb-6">
         <h1 className="text-3xl font-bold">Product Explorer</h1>
-        <p className="text-sm text-slate-500">
-          Last updated at {new Date().toLocaleTimeString()}
-        </p>
+        {lastUpdated && (
+          <p className="text-sm text-slate-500">
+            Last updated at {lastUpdated}
+          </p>
+        )}
       </header>
 
       <Filters
@@ -44,12 +50,11 @@ export default function HomePage() {
 
       {loading && <p className="mt-8 text-slate-500">Loading products…</p>}
 
-      {/*
-        TODO(candidate): the hook already exposes `error`, but nothing renders it.
-        Show a helpful error state to the user when the request fails.
-      */}
+      {error && <p className="mt-8 text-red-500">{error}</p>}
 
-      <ProductGrid products={visibleProducts} onSelect={setSelected} />
+      {!loading && !error && (
+        <ProductGrid products={visibleProducts} onSelect={setSelected} />
+      )}
 
       <ProductModal product={selected} onClose={() => setSelected(null)} />
     </main>
