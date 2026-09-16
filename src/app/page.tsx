@@ -5,6 +5,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { Filters } from "@/components/Filters";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductModal } from "@/components/ProductModal";
+import { ProductGridSkeleton } from "@/components/ProductSkeleton";
 import { Product } from "@/types/product";
 
 export default function HomePage() {
@@ -23,11 +24,14 @@ export default function HomePage() {
     return ["all", ...Array.from(unique)];
   }, [products]);
 
-  const visibleProducts = products.filter((product) => {
-    const matchesCategory = category === "all" || product.category === category;
-    const matchesSearch = product.title.toLowerCase().includes(search.toLowerCase().trim());
-    return matchesCategory && matchesSearch;
-  });
+  const visibleProducts = useMemo(() => {
+    const query = search.toLowerCase().trim();
+    return products.filter((product) => {
+      const matchesCategory = category === "all" || product.category === category;
+      const matchesSearch = product.title.toLowerCase().includes(query);
+      return matchesCategory && matchesSearch;
+    });
+  }, [products, category, search]);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
@@ -48,7 +52,7 @@ export default function HomePage() {
         onCategoryChange={setCategory}
       />
 
-      {loading && <p className="mt-8 text-slate-500">Loading products…</p>}
+      {loading && <ProductGridSkeleton />}
 
       {error && <p className="mt-8 text-red-500">{error}</p>}
 
