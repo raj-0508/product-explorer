@@ -26,7 +26,11 @@ export function ProductGrid({ products, onSelect }: ProductGridProps) {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2, delay: index * 0.03 }}
           >
-            <ProductCard product={product} onClick={() => onSelect(product)} />
+            <ProductCard
+              product={product}
+              onClick={() => onSelect(product)}
+              priority={index < 6}
+            />
           </motion.div>
         ))}
       </AnimatePresence>
