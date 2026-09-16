@@ -19,7 +19,7 @@ export function ProductGrid({ products, onSelect }: ProductGridProps) {
       <AnimatePresence>
         {products.map((product, index) => (
           <motion.div
-            key={index}
+            key={product.id}
             layout
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
