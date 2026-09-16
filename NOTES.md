@@ -40,9 +40,13 @@ For each: what was wrong, **why** it was wrong, and how I fixed it.
 
 - **Combined filter condition**: Used a clean boolean composition (`matchesCategory && matchesSearch`) for clear and predictable filtering behavior.
 - **Contained Modal Animation**: Placed `AnimatePresence` inside `ProductModal` around conditional rendering of the backdrop and card so consumers just pass `product={selected}`.
+- **Next.js Image Optimization (`src/components/ProductCard.tsx`, `src/components/ProductModal.tsx`)**: Replaced native `<img>` tags with Next.js `<Image>` using `fill`, responsive `sizes`, above-the-fold `priority`, and configured `remotePatterns` in `next.config.mjs` for `fakestoreapi.com`. Added subtle `bg-slate-50` container placeholders for smoother image loading.
+- **Memoized Filtering (`src/app/page.tsx`)**: Wrapped `visibleProducts` in `useMemo` to avoid redundant filtering calculations when opening or closing the product modal.
+- **Form Accessibility (`src/components/Filters.tsx`)**: Added explicit `aria-label` attributes to the search input and category select dropdown to ensure full screen-reader and WCAG accessibility compliance without altering visual layout.
+- **Skeleton Grid Loading UI (`src/components/ProductSkeleton.tsx`)**: Replaced the static loading text with responsive, pulsing skeleton card placeholders that mirror the 1/2/3 column layout to eliminate Cumulative Layout Shift (CLS) and provide a polished user experience.
 
 ## With more time
 
-- Add debouncing to the search input.
-- Add retry functionality to the error state.
-- Add image loading skeletons / placeholders.
+- Add debouncing to the search input for large catalogs.
+- Add a retry button and error recovery UI to the data-fetching error state.
+- Add infinite scrolling or pagination for large product datasets.
