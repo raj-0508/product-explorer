@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Product } from "@/types/product";
 
@@ -37,12 +38,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 ✕
               </button>
             </div>
-            <div className="mt-4 flex justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative mt-4 h-48 w-full overflow-hidden rounded-xl bg-slate-50">
+              <Image
                 src={product.image}
                 alt={product.title}
-                className="max-h-48 w-auto object-contain"
+                fill
+                sizes="(max-width: 768px) 100vw, 500px"
+                priority
+                className="object-contain"
               />
             </div>
             <p className="mt-4 text-sm leading-relaxed text-slate-600">
