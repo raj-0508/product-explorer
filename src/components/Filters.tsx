@@ -19,12 +19,14 @@ export function Filters({
     <div className="mb-2 flex flex-col gap-3 sm:flex-row">
       <input
         type="text"
+        aria-label="Search products"
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Search products…"
         className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:border-slate-500 sm:max-w-xs"
       />
       <select
+        aria-label="Filter by category"
         value={category}
         onChange={(e) => onCategoryChange(e.target.value)}
         className="rounded-lg border border-slate-300 bg-white px-4 py-2 outline-none focus:border-slate-500"
