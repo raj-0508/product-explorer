@@ -30,7 +30,7 @@ The **Product Explorer** allows users to seamlessly browse, search, filter, and 
 | Technology | Purpose |
 |---|---|
 | **Next.js (App Router)** | Framework for Server & Client Components, routing, and asset optimization |
-| **React 18** | Component architecture and state management |
+| **React 18** | Component architecture, custom hooks, and state management |
 | **TypeScript** | Strict compile-time type safety with zero `any` types |
 | **Tailwind CSS** | Utility-first, responsive styling |
 | **Framer Motion** | Declarative page and modal transitions |
@@ -61,6 +61,7 @@ This project was built by resolving several deliberate architectural and runtime
 
 ## 💡 Key Architectural Decisions
 
+- **Zero-Dependency Native Hook vs. TanStack Query**: Evaluated TanStack Query for server-state caching, but intentionally opted for a clean, zero-dependency custom React hook (`useProducts`) with native `useEffect` and unmount cleanup to preserve minimal dependencies and demonstrate core React lifecycle fundamentals.
 - **Next.js `<Image />` with `fill` and `sizes`**: Leveraged Next.js Image Optimization with container bounds rather than static dimensions to avoid aspect-ratio distortion across device breakpoints. Configured `remotePatterns` in `next.config.mjs` for remote CDN security.
 - **Memoized Filtering (`useMemo`)**: Wrapped visible product calculations in `useMemo` so modal toggling and unrelated re-renders do not trigger expensive array iterations.
 - **Above-The-Fold LCP Optimization**: Tagged initial visible grid items with `priority={index < 6}` to preload Largest Contentful Paint (LCP) assets immediately.

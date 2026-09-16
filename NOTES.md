@@ -44,9 +44,11 @@ For each: what was wrong, **why** it was wrong, and how I fixed it.
 - **Memoized Filtering (`src/app/page.tsx`)**: Wrapped `visibleProducts` in `useMemo` to avoid redundant filtering calculations when opening or closing the product modal.
 - **Form Accessibility (`src/components/Filters.tsx`)**: Added explicit `aria-label` attributes to the search input and category select dropdown to ensure full screen-reader and WCAG accessibility compliance without altering visual layout.
 - **Skeleton Grid Loading UI (`src/components/ProductSkeleton.tsx`)**: Replaced the static loading text with responsive, pulsing skeleton card placeholders that mirror the 1/2/3 column layout to eliminate Cumulative Layout Shift (CLS) and provide a polished user experience.
+- **Native React Hook vs. TanStack Query (`src/hooks/useProducts.ts`)**: Evaluated TanStack Query for server-state management, but intentionally opted for a clean, zero-dependency custom React hook using native `useState` and `useEffect` with proper cancellation guards. This directly satisfies the assignment ground rules (*"Keep dependencies minimal"*) while demonstrating core mastery of React lifecycle and dependency reconciliation.
 
 ## With more time
 
+- Integrate **TanStack Query** (React Query) if the app expands to include server mutations, multi-page routing, automated window-focus refetching, and pagination.
 - Add debouncing to the search input for large catalogs.
 - Add a retry button and error recovery UI to the data-fetching error state.
-- Add infinite scrolling or pagination for large product datasets.
+- Add infinite scrolling or virtualization for large product datasets.
